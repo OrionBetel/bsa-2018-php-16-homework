@@ -1,28 +1,34 @@
 import Vue from 'vue'
 
-let state = {
-  users: null
+const state = {
+  users: [
+    {
+      id: 1,
+      name: 'Leanne Graham',
+      email: 'Sincere@april.biz',
+      avatar: 'http://avatar.cmex29.ru/pic/0y1.gif'
+    },
+    {
+      id: 2,
+      name: 'Ervin Howell',
+      email: 'Shanna@melissa.tv',
+      avatar: 'http://avatar.cmex29.ru/pic/0y2.gif'
+    }
+  ],
+
+  lastId: 2
 }
 
-fetch('https://jsonplaceholder.typicode.com/users')
-  .then(response => response.json())
-  .then(json => {
-    state.users = json.map(user => {
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        avatar: 'http://avatar.cmex29.ru/pic/0y' + user.id + '.gif'
-      }
-    })
-  })
-
-let lastId = 10
+const getters = {
+  getUserById: state => id => {
+    return state.users.find(user => user.id === id)
+  }
+}
 
 const mutations = {
   ADD_USER (state, user) {
     state.users.push({
-      id: ++lastId,
+      id: state.lastId += 1,
       name: user.name,
       email: user.email,
       avatar: user.avatar
@@ -85,6 +91,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions
 }
